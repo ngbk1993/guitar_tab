@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guitar Chord Search</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🎸 Guitar Chords</h1>
+    <input type="text" id="searchInput" placeholder="Search songs or artists..." />
+
+    <div id="songList"></div>
+
+    <div id="songDisplay" class="hidden">
+      <h2 id="songTitle"></h2>
+      <p id="songArtist"></p>
+
+      <div class="transpose-controls">
+        <button onclick="transpose(-1)">- Transpose</button>
+        <button onclick="transpose(1)">+ Transpose</button>
+      </div>
+
+      <pre id="songContent"></pre>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

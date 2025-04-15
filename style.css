@@ -1,0 +1,96 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 10px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 10px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.8em;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+#songList div {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#songList div:hover {
+  background: #e0f7fa;
+}
+
+#songDisplay {
+  margin-top: 30px;
+}
+
+.transpose-controls {
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.transpose-controls button {
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  flex: 1 1 auto;
+}
+
+.transpose-controls button:hover {
+  background: #0056b3;
+}
+
+pre {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: monospace;
+  font-size: 0.95em;
+  overflow-x: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 📱 Mobile adjustments */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .transpose-controls button {
+    font-size: 0.95em;
+    padding: 8px;
+  }
+
+  #songList div {
+    font-size: 0.95em;
+  }
+}
