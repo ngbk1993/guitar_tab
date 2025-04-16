@@ -1,9 +1,22 @@
 let songs = [];
 let currentSong = null;
 let transposeOffset = 0;
-const transposeDisplay = document.getElementById('transposeDisplay');  // Create an element to display the change
+const transposeDisplay = document.getElementById('transposeDisplay');
 
 const chordList = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+// Function to transpose individual chords
+function transposeChord(chord, offset) {
+  const match = chord.match(/^([A-G][#b]?)(.*)/);
+  if (!match) return chord;
+
+  const [_, base, suffix] = match;
+  const index = chordList.indexOf(base);
+  if (index === -1) return chord;
+
+  const newIndex = (index + offset + chordList.length) % chordList.length;
+  return chordList[newIndex] + suffix;
+}
 
 function loadSongs() {
   fetch('songs.json')
@@ -34,28 +47,27 @@ function displaySong(song) {
   document.getElementById('songContent').textContent = song.content;
 
   document.getElementById('songDisplay').classList.remove('hidden');
+  transposeDisplay.textContent = "Original Key";
 }
 
 function transpose(offset) {
   if (!currentSong) return;
   transposeOffset += offset;
 
-  // Display the transposition change
-  if (transposeOffset > 0) {
-    transposeDisplay.textContent = `Transposed +${transposeOffset} steps`;
-  } else if (transposeOffset < 0) {
-    transposeDisplay.textContent = `Transposed ${transposeOffset} steps`;
-  } else {
-    transposeDisplay.textContent = `Original Key`;
-  }
+  transposeDisplay.textContent =
+    transposeOffset > 0
+      ? `Transposed +${transposeOffset} steps`
+      : transposeOffset < 0
+      ? `Transposed ${transposeOffset} steps`
+      : `Original Key`;
 
-  const transposed = currentSong.content.replace(/\[([A-G][#b]?m?(aj|dim|sus)?\d*)\]/g, (match, chord) => {
-    let base = chord.match(/[A-G]#?/)[0];
-    let suffix = chord.slice(base.length);
-    let index = chordList.indexOf(base);
-    if (index === -1) return match;
-    let newIndex = (index + transposeOffset + chordList.length) % chordList.length;
-    return `[${chordList[newIndex]}${suffix}]`;
+  const transposed = currentSong.content.replace(/\[([^\]]+)\]/g, (match, chord) => {
+    if (chord.includes('/')) {
+      const [main, bass] = chord.split('/');
+      return `[${transposeChord(main, transposeOffset)}/${transposeChord(bass, transposeOffset)}]`;
+    } else {
+      return `[${transposeChord(chord, transposeOffset)}]`;
+    }
   });
 
   document.getElementById('songContent').textContent = transposed;
