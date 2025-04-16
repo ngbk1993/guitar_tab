@@ -45,6 +45,10 @@ h1 {
   background: #e0f7fa;
 }
 
+#songList {
+  display: none;
+}
+
 #songDisplay {
   margin-top: 30px;
 }

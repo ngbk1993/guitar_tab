@@ -34,7 +34,10 @@ function displaySongList(filteredSongs) {
   filteredSongs.forEach(song => {
     const div = document.createElement('div');
     div.textContent = `${song.title} - ${song.artist}`;
-    div.onclick = () => displaySong(song);
+    div.onclick = () => {
+        displaySong(song);
+        listDiv.style.display = "none";  // 👈 Hide the list here
+    };
     listDiv.appendChild(div);
   });
 }
@@ -109,11 +112,34 @@ function handleHashLoad() {
 
 document.getElementById('searchInput').addEventListener('input', function () {
   const query = this.value.toLowerCase();
-  const filtered = songs.filter(song =>
-    song.title.toLowerCase().includes(query) ||
-    song.artist.toLowerCase().includes(query)
-  );
-  displaySongList(filtered);
+  const listDiv = document.getElementById('songList');
+
+  if (query.trim() === "") {
+    listDiv.style.display = "none";  // Hide if input is empty
+  } else {
+    const filtered = songs.filter(song =>
+      song.title.toLowerCase().includes(query) ||
+      song.artist.toLowerCase().includes(query)
+    );
+    displaySongList(filtered);
+    listDiv.style.display = "block";  // Show the list while searching
+  }
+});
+
+document.getElementById('searchInput').addEventListener('focus', function () {
+  const query = this.value.toLowerCase();
+  const listDiv = document.getElementById('songList');
+
+  if (query.trim() === "") {
+    listDiv.style.display = "none";
+  } else {
+    const filtered = songs.filter(song =>
+      song.title.toLowerCase().includes(query) ||
+      song.artist.toLowerCase().includes(query)
+    );
+    displaySongList(filtered);
+    listDiv.style.display = "block";
+  }
 });
 
 loadSongs();
