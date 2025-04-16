@@ -101,3 +101,24 @@ pre {
     font-size: 0.95em;
   }
 }
+
+.lyric-container {
+  position: relative;
+  padding: 2em;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: monospace;
+  overflow: auto;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='200' viewBox='0 0 500 200'%3E%3Ctext x='0' y='100' font-size='22' font-family='monospace' fill='rgba(0,0,0,0.1)' transform='rotate(-30 250 100)'%3Engbk1993.github.io/guitar_tab%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-position: 25% center;
+}
+
+.lyric-container pre {
+  background-color: transparent; /* 🔥 this is key */
+  position: relative;
+  z-index: 1;
+  white-space: pre-wrap;
+}
