@@ -27,6 +27,13 @@ h1 {
   box-sizing: border-box;
 }
 
+#transposeDisplay {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
 #songList div {
   padding: 12px;
   border-bottom: 1px solid #ddd;

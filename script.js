@@ -1,6 +1,7 @@
 let songs = [];
 let currentSong = null;
 let transposeOffset = 0;
+const transposeDisplay = document.getElementById('transposeDisplay');  // Create an element to display the change
 
 const chordList = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
@@ -38,6 +39,15 @@ function displaySong(song) {
 function transpose(offset) {
   if (!currentSong) return;
   transposeOffset += offset;
+
+  // Display the transposition change
+  if (transposeOffset > 0) {
+    transposeDisplay.textContent = `Transposed +${transposeOffset} steps`;
+  } else if (transposeOffset < 0) {
+    transposeDisplay.textContent = `Transposed ${transposeOffset} steps`;
+  } else {
+    transposeDisplay.textContent = `Original Key`;
+  }
 
   const transposed = currentSong.content.replace(/\[([A-G][#b]?m?(aj|dim|sus)?\d*)\]/g, (match, chord) => {
     let base = chord.match(/[A-G]#?/)[0];
