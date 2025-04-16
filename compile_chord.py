@@ -1,35 +1,53 @@
 import os
 import json
 
-def extract_song_data(base_folder):
-    song_data = []
+SONGS_DIR = 'songs'  # root folder containing all song folders
+OUTPUT_JSON = 'songs.json'
 
-    for root, dirs, files in os.walk(base_folder):
-        for file in files:
-            if file.endswith(".txt"):
-                artist = os.path.basename(root)
-                title = os.path.splitext(file)[0].replace("_", " ")
-                path = os.path.join(root, file).replace("\\", "/")
+def extract_title(content, fallback_name):
+    """Try to parse the title from the first line, fallback to filename."""
+    lines = content.strip().splitlines()
+    title = fallback_name
 
-                with open(path, "r", encoding="utf-8") as f:
+    if lines and lines[0].lower().startswith("title:"):
+        title = lines[0][6:].strip()
+    elif lines:
+        title = lines[0].strip()
+
+    return title
+
+def build_index():
+    songs = []
+
+    for root, dirs, files in os.walk(SONGS_DIR):
+        for filename in files:
+            if filename.endswith('.txt'):
+                filepath = os.path.join(root, filename)
+                rel_path = os.path.relpath(filepath, SONGS_DIR)
+                song_path = os.path.splitext(rel_path)[0].replace('\\', '/')
+
+                with open(filepath, 'r', encoding='utf-8') as f:
                     content = f.read()
 
-                song_data.append({
+                fallback_name = os.path.splitext(filename)[0]
+                title = extract_title(content, fallback_name)
+
+                # Get artist from last subfolder name
+                rel_folder = os.path.dirname(rel_path)
+                artist = os.path.basename(rel_folder) if rel_folder else "Unknown"
+
+                song = {
                     "title": title,
                     "artist": artist,
-                    "path": path,
+                    "path": song_path,
                     "content": content
-                })
+                }
+                songs.append(song)
 
-    return song_data
+    with open(OUTPUT_JSON, 'w', encoding='utf-8') as out_file:
+        json.dump(songs, out_file, indent=2, ensure_ascii=False)
 
-if __name__ == "__main__":
-    base_folder = "songs"
-    output_file = "songs.json"
+    print(f"✅ {len(songs)} songs indexed in {OUTPUT_JSON}")
 
-    data = extract_song_data(base_folder)
-
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-    print(f"Compiled {len(data)} songs into {output_file}")
+if __name__ == '__main__':
+    build_index()

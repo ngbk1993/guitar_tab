@@ -24,6 +24,7 @@ function loadSongs() {
     .then(data => {
       songs = data;
       displaySongList(songs);
+      handleHashLoad();  // Check the URL on load and display the correct song and transpose
     });
 }
 
@@ -48,6 +49,9 @@ function displaySong(song) {
 
   document.getElementById('songDisplay').classList.remove('hidden');
   transposeDisplay.textContent = "Original Key";
+
+  // Update URL hash with transpose state
+  updateHash();
 }
 
 function transpose(offset) {
@@ -71,6 +75,36 @@ function transpose(offset) {
   });
 
   document.getElementById('songContent').textContent = transposed;
+
+  // Update the hash in the URL after transposing
+  updateHash();
+}
+
+function updateHash() {
+  if (!currentSong) return;
+  const encodedPath = encodeURIComponent(currentSong.path);  // Assuming the song has a 'path' attribute
+  const hash = `${encodedPath}?transpose=${transposeOffset}`;
+  window.location.hash = hash;
+}
+
+function handleHashLoad() {
+  const [rawPath, query] = decodeURIComponent(window.location.hash.slice(1)).split('?');
+  if (!rawPath) return;
+
+  const song = songs.find(s => s.path === rawPath);
+  if (!song) return;
+
+  displaySong(song);
+
+  const params = new URLSearchParams(query);
+  const transposeValue = parseInt(params.get('transpose'));
+  if (!isNaN(transposeValue) && transposeValue !== 0) {
+    // Apply transpose this many times
+    const steps = transposeValue;
+    for (let i = 0; i < Math.abs(steps); i++) {
+      transpose(steps > 0 ? 1 : -1);
+    }
+  }
 }
 
 document.getElementById('searchInput').addEventListener('input', function () {
