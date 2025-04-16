@@ -122,3 +122,36 @@ pre {
   z-index: 1;
   white-space: pre-wrap;
 }
+
+/* 🖨️ Ensure background (watermark) shows up when printing */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .lyric-container {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='200' viewBox='0 0 500 200'%3E%3Ctext x='-100' y='100' font-size='22' font-family='monospace' fill='rgba(0,0,0,0.1)' transform='rotate(-30 250 100)'%3Engbk1993.github.io/guitar_tab%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-position: 10% center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+@media print {
+  #searchInput,
+  .transpose-controls,
+  #songList,
+  #songTitle,
+  #songArtist,
+  #transposeDisplay,
+  h1 {
+    display: none !important;
+  }
+
+  .lyric-container {
+    margin-top: 0;
+    box-shadow: none;
+  }
+}
