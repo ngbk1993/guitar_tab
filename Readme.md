@@ -18,14 +18,14 @@ This project is built using plain HTML, CSS, and JavaScript, with song data comp
 ---
 
 ## 📁 Folder Structure
-├── index.html # Main webpage 
-├── style.css # Stylesheet 
-├── script.js # JS logic for search & transpose 
-├── songs/ # Folder containing .txt files of chord+lyric data 
-├── songs.json # Compiled song index (generated from /songs) 
-├── generate_index.py # Python script to compile songs.json 
-├── LICENSE.md # License info 
-└── README.md # You're here!
+├── index.html # Main webpage  
+├── style.css # Stylesheet  
+├── script.js # JS logic for search & transpose  
+├── songs/ # Folder containing .txt files of chord+lyric data  
+├── songs.json # Compiled song index (generated from /songs)  
+├── generate_index.py # Python script to compile songs.json  
+├── LICENSE.md # License info  
+└── README.md # You're here! 
 
 
 ---
